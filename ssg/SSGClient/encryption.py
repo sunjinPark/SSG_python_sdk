@@ -42,7 +42,6 @@ class Encryption(object):
         :returns: decrypted buf
         """
         str_padding_byte = file_buf[-2:]
-        print "in decrypt : " + str_padding_byte
         self.padding_byte = int(str_padding_byte)
         shuffled_buf = file_buf[0:-2]
         header_byte = 2
@@ -67,7 +66,6 @@ class Encryption(object):
     def mapping_password(self):
         if self._mapping_password is None:
             self._mapping_password = self._generate_mapping_password()
-            print "in mapping_password : " + str(self._mapping_password)
         return self._mapping_password
 
     def _shuffle_buf(self, chunks):
@@ -104,7 +102,6 @@ class Encryption(object):
                 double_probing = 1
                 new_value = 1
                 value = (self.file_size / ord(self.meta_password[index])) % hash_size
-                print "in _generate_mapping_password : " + str(self.file_size) + " / " + str(ord(self.meta_password[index])) + " % " + str(hash_size)
 
                 while key_list.count(value) != 0:
                     value = (value + double_probing) % hash_size

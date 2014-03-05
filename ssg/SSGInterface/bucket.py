@@ -120,7 +120,6 @@ class SSGBucket:
         key.size_s3 = data['size_s3']
         key.size = data['size']
 
-        print "in get_key_internal : " + key.real_name
         return key
 
     def new_key(self, key_name=None):

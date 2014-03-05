@@ -45,6 +45,7 @@ class SSGKey(object):
         self.size = None
         self.size_ssg = None
         self.url = None
+        self.key_description = dict()
 
         #upload body
         self.policy = None
@@ -79,8 +80,27 @@ class SSGKey(object):
         """
         return bool(self.bucket.lookup(self.name))
 
-    def get_metadata(self):
+    def get_metadata(self, k):
+        """
+        get description of key
+
+        :rtype: dict
+        :return: description of this key
+        """
+
         return self.__dict__
+
+    def set_description(self, k, v):
+        """
+        set description of key
+
+        :type k: string
+        :param k: key.
+
+        :type v: string
+        :param v: value.
+        """
+        self.key_description[k] = v
 
     def get_contents_to_filename(self, filename):
         """
@@ -94,7 +114,6 @@ class SSGKey(object):
         method = "GET"
         url = self.url
         response, content = self.bucket.connection.make_request(method, url, file_io=True)
-
         try:
             utils.check_response(response)
             with open(filename, 'wb') as f:
@@ -122,7 +141,6 @@ class SSGKey(object):
         """
         self.set_contents_from_filename(size_s3=size_s3, size_ssg=size_ssg)
         query = "/key_finish?path="+quote(self.name)
-        print "in build_post form : " + query
         ssg_list = list()
         body = dict()
         body['fields'] = [{'name': 'policy', 'value': self.policy},
@@ -259,7 +277,6 @@ class SSGKey(object):
             utils.check_response(response)
             data = json.loads(content)
             #데이터 형식 확인 후 key_list return
-            print 'data : ' + str(data)
 
         except request_error as re:
             self.bucket.connection.request_error_handler(re, 'finish_response', method, url,
@@ -286,7 +303,7 @@ class SSGKey(object):
             values.append((k, v))
 
         values.append(("file", (pycurl.FORM_FILE, self.filepath)))
-        print values
+
         c.setopt(c.HTTPPOST, values)
         c.setopt(c.SSL_VERIFYHOST, False)
         c.setopt(c.SSL_VERIFYPEER, False)

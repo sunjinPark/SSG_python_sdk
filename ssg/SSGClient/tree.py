@@ -149,7 +149,7 @@ class Tree(object):
         :type cors_config: boto.s3.cors.CORSConfiguration
         :param cors_config: The CORS configuration you want to configure for this bucket
         """
-        return self.set_cors_xml(cors_config.to_xml(cors_config, headers))
+        return self.s3_bucket.set_cors(cors_config, headers)
 
     def set_cors_xml(self, cors_xml, headers=None):
         """

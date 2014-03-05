@@ -113,8 +113,11 @@ class Fruit(object):
             f.write(dec_buf)
         print str(self.name) + "download complete"
 
-    def get_metadata(self):
-        return self.ssg_key.get_metadata()
+    def get_metadata(self, k):
+        return self.ssg_key.get_metadata(k)
+
+    def set_metadata(self, k, v):
+        return self.ssg_key.set_metadata(k)
 
     def set_contents_from_file(self, fp, enc_class=None):
         """
@@ -145,8 +148,8 @@ class Fruit(object):
         real_name = self.ssg_key.real_name
         self.s3_key = Key(self.tree.s3_bucket, real_name)
 
-        if self.s3_key.exists(real_name):
-            raise ValueError("Key already exists. Input another Key.")
+        # if self.s3_key.exists(real_name):
+        #     raise ValueError("Key already exists. Input another Key.")
 
         #upload to s3
         self.s3_key.set_contents_from_filename(s3_tmp)
@@ -157,7 +160,7 @@ class Fruit(object):
         splitter.flush_tmp_dir()
 
         #error시엔 둘다 지우는거로......
-        print str(self.name) + "upload success!"
+        print str(self.name) + " upload success!"
 
     def set_contents_from_filename(self, filename, enc_class=None):
         """

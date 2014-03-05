@@ -209,7 +209,7 @@ class SSGConnection(object):
 
             if not None == body:
                 request_body = json.dumps(body)
-        print url
+        # print url
         return http.request(url, method, request_body, request_header)
 
     @property
@@ -262,7 +262,7 @@ class SSGConnection(object):
         if not query == '':
             path = path + query
 
-        print 'in _generate_path : '+path
+        #print 'in _generate_path : '+path
         return path
 
     def _set_token(self, response_data):

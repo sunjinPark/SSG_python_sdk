@@ -17,8 +17,8 @@ class Connection(object):
             self.connection(key_file)
 
         else:
-            self.s3_conn = S3Connection()
-            self.ssg_conn = SSGConnection()
+            self.s3_conn = None
+            self.ssg_conn = None
 
         self.tree_class = tree_class
 
